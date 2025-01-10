@@ -24,11 +24,11 @@ const db = mysql.createPool({
 
 db.getConnection()
   .then((connection) => {
-    console.log('Database connected successfully');
+    console.log("Database connected successfully");
     connection.release();
   })
   .catch((err) => {
-    console.error('Database connection failed: ', err.message);
+    console.error("Database connection failed: ", err.message);
     process.exit(1);
   });
 
@@ -175,13 +175,18 @@ app.post("/logout", authenticateJWT, async (req, res) => {
   }
 });
 // разница в том что отсюда происходят РАЗЛОГИРОВАНИЕ от всех устройств
-app.post('/logoutAll', authenticateJWT, async (req, res) => {
-    try {
-        await db.query('DELETE FROM tokens WHERE user_id = ?', [req.user.id]); // Удаляем все токены пользователя
-        res.json({ message: 'Logged out from all devices successfully' });
-    } catch (err) {
-        res.status(500).json({ message: 'Error logging out from all devices', error: err.message });
-    }
+app.post("/logoutAll", authenticateJWT, async (req, res) => {
+  try {
+    await db.query("DELETE FROM tokens WHERE user_id = ?", [req.user.id]); // Удаляем все токены пользователя
+    res.json({ message: "Logged out from all devices successfully" });
+  } catch (err) {
+    res
+      .status(500)
+      .json({
+        message: "Error logging out from all devices",
+        error: err.message,
+      });
+  }
 });
 
 app.get("/info", authenticateJWT, (req, res) => {

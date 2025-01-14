@@ -1,13 +1,13 @@
 const mysql = require("mysql2/promise");
 
 const db = mysql.createPool({
-    host: "localhost",
-    user: "root",
-    password: "",
-    database: "rest_api",
-  });
+  host: "localhost",
+  user: "root",
+  password: "",
+  database: "rest_api",
+});
 
-  db.getConnection()
+db.getConnection()
   .then((connection) => {
     console.log("Database connected successfully");
     connection.release();
@@ -17,4 +17,4 @@ const db = mysql.createPool({
     process.exit(1);
   });
 
-  module.exports = db;
+module.exports = db;
